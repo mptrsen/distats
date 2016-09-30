@@ -52,6 +52,14 @@ Make sure you have the database interface module DBI for your Perl version as we
 
 If you get an error like "Can't locate Some/Module.pm in @INC", you need to update your Perl installation; see REQUIRED PERL MODULES for more information.
 
+### Required Perl modules
+
+DiStats uses core modules that are present in any standard Perl distribution. The modules listed below have to be installed additionally. If you get the error message "Error: Requested to multi-thread but Parallel::ForkManager not usable", it means that Perl can't find the Parallel::ForkManager module. 
+
+* Parallel::ForkManager (if you want to run the program with more than 1 thread)
+* DBI
+* DBD::SQLite
+
 ## DATA REQUIREMENTS
 
 DiStats only needs a regular Fasta file as input file. The header of the Fasta file must contain the genus and species name separated by an underscore and, after a pipe, an unambiguously unique ID for that sequence. Here is an example: 
@@ -66,26 +74,11 @@ DiStats only needs a regular Fasta file as input file. The header of the Fasta f
 	tagttactgctcatgcttttgtaataattaattttatagtaataccaattcttattggag
 
 
-
-## Required Perl modules
-
-DiStats uses core modules that are present in any standard Perl distribution. The modules listed below have to be installed additionally. If you get the error message "Error: Requested to multi-thread but Parallel::ForkManager not usable", it means that Perl can't find the Parallel::ForkManager module. 
-
-* Parallel::ForkManager (if you want to run the program with more than 1 thread)
-* DBI
-* DBD::SQLite
-
-
-## Citation
-
-Cite as: Astrin, Höfer, Spelda, Holstein, Bayer, Hendrich, Huber, Kielhorn,
-Krammer, Lemke, Monje, Morinière, Rulik, Petersen, Janssen, Muster (2016).
-Towards a DNA Barcode Reference Database for Spiders and Harvestmen of Germany.
-PLoS ONE 11(9): e0162624.  DOI:10.1371/journal.pone.0162624
-
 ## AUTHORS
 
 Written by Hannah Janssen and Malte Petersen, Zoological Research Museum Alexander Koenig, Bonn, Germany.
+
+Cite as: Astrin, Höfer, Spelda, Holstein, Bayer, Hendrich, Huber, Kielhorn, Krammer, Lemke, Monje, Morinière, Rulik, Petersen, Janssen, Muster (2016). Towards a DNA Barcode Reference Database for Spiders and Harvestmen of Germany.  PLoS ONE 11(9): e0162624.  DOI:10.1371/journal.pone.0162624
 
 ## REPORTING BUGS
 

@@ -2,7 +2,7 @@
 
 ## SYNOPSIS
 
-`distats.pl [OPTIONS] ... [INPUT_FILE] [OUTPUT_FILE]`
+	distats.pl [OPTIONS] ... INPUT_FILE OUTPUT_FILE
 
 ## DESCRIPTION
 
@@ -17,20 +17,30 @@ The output file is a tab-delimited table and should be named accordingly, e.g., 
 
 ## COMMAND LINE OPTIONS
 
-`--real_values`: Output distances with 15 decimal places. Default: rounded to two decimal places. 
+	--real_values
 
-`--distance[=X]`: Use different distance matrix X. Possible values are 'p' (corrected Hamming distance) and 'k2p' (Kimura 2-parameter distance). Default: p distance.
+Output distances with 15 decimal places. Default: rounded to two decimal places. 
 
-`--num_threads[=N]`: Use N threads for calculating the distance matrix. Default: single-threaded.
+	--distance[=X]
 
-`--nosubspecies`: Do not treat subspecies as distinct species; they are merged into one species. Default: treat subspecies as distinct species. 
+Use different distance matrix X. Possible values are 'p' (corrected Hamming distance) and 'k2p' (Kimura 2-parameter distance). Default: p distance.
 
-`--print_dist_matrix`: Distance matrix will be printed into an output file named "distance_matrix_OUTPUT_FILE". Warning: because there are n*(n-1) comparisons, the file can be very large! Default: no distance matrix file output.
+	--num_threads[=N]
+
+Use N threads for calculating the distance matrix. Default: single-threaded.
+
+	--nosubspecies
+
+Do not treat subspecies as distinct species; they are merged into one species. Default: treat subspecies as distinct species. 
+
+	--print_dist_matrix
+
+Distance matrix will be printed into an output file named "distance_matrix_OUTPUT_FILE". Warning: because there are n*(n-1) comparisons, the file can be very large! Default: no distance matrix file output.
  
 
 ## SYSTEM REQUIREMENTS
 
-DiStats was tested and works with Perl version 5.20.2. Downward compatibility has not been tested.
+DiStats was developed and tested with Perl version 5.20.2. Downward compatibility has not been tested.
 
 If you run Linux or some flavor of UNIX, your Perl version should be fine. If you work on a Windows machine, possible Perl distributions to download are:
 
@@ -66,9 +76,16 @@ DiStats uses core modules that are present in any standard Perl distribution. Th
 * DBD::SQLite
 
 
+## Citation
+
+Cite as: Astrin, Höfer, Spelda, Holstein, Bayer, Hendrich, Huber, Kielhorn,
+Krammer, Lemke, Monje, Morinière, Rulik, Petersen, Janssen, Muster (2016).
+Towards a DNA Barcode Reference Database for Spiders and Harvestmen of Germany.
+PLoS ONE 11(9): e0162624.  DOI:10.1371/journal.pone.0162624
+
 ## AUTHORS
 
-Written by Malte Petersen and Hannah Janssen, Zoological Research Museum Alexander Koenig, Bonn, Germany.
+Written by Hannah Janssen and Malte Petersen, Zoological Research Museum Alexander Koenig, Bonn, Germany.
 
 ## REPORTING BUGS
 

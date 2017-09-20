@@ -76,17 +76,16 @@ DiStats only needs a regular Fasta file as input file. The header of the Fasta f
 
 ## AUTHORS
 
-Written by Hannah Janssen and Malte Petersen, Zoological Research Museum Alexander Koenig, Bonn, Germany.
+Written by Hannah Petersen and Malte Petersen, Zoological Research Museum Alexander Koenig, Bonn, Germany.
 
 Cite as: Astrin, Höfer, Spelda, Holstein, Bayer, Hendrich, Huber, Kielhorn, Krammer, Lemke, Monje, Morinière, Rulik, Petersen, Janssen, Muster (2016). Towards a DNA Barcode Reference Database for Spiders and Harvestmen of Germany.  PLoS ONE 11(9): e0162624.  DOI:10.1371/journal.pone.0162624
 
 ## REPORTING BUGS
 
-Report bugs to h.janssen.zfmk at uni-bonn.de or mptrsen at uni-bonn.de
+Report bugs to h.petersen.zfmk at uni-bonn.de or mptrsen at uni-bonn.de
 
 DiStats home page: <http://github.com/mptrsen/distats/>
 
 ## COPYRIGHT
 
-Copyright 2016 Hannah Janssen & Malte Petersen
-
+Copyright 2016 Hannah Petersen & Malte Petersen

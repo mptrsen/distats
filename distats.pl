@@ -10,7 +10,7 @@ use Data::Dumper;
 # and removing specified options and their possible values
 use Getopt::Long;
 
-# declare option variables, set value to zero (=false) or one (=true)
+# Declare option variables, set value to zero (=false) or one (=true)
 my $real_values = 0; # default: distances in percent with 2 decimal places
 my $treat_subspecies_as_separate = 1; # default: treat subspecies as distinct species
 my $distance = 'p'; # defaults to p distance
@@ -26,7 +26,8 @@ GetOptions(
 	'print_dist_matrix' 	=> \$print_dist_matrix,
 ) or die "Unknown option";
 
-my $usage = "USAGE: perl $0 [OPTIONS] FASTA_FILE OUTPUTFILE\n";
+# Usage parameters
+my $usage = "USAGE: perl $0 [OPTIONS] FASTA_FILE (.fasta) OUTPUTFILE (.txt or .csv)\n";
 $usage .= "Options:\n";
 $usage .= "  --real_values   original results with endless decimal places, no option: results in percent with two decimal places\n";
 $usage .= "  --distance=X    use different distance matrix X. Possible values are 'p' and 'k2p'. Default: 'p'\n";
@@ -35,11 +36,13 @@ $usage .= "  --nosubspecies  do not treat subspecies as separate species; they a
 $usage .= "  --print_dist_matrix	 print distance matrix into a file";
 $usage .= "\n";
 
-# if number of arguments in command line is not 2, show
-# $usage message and exit script
+# If number of arguments in command line is not 2, show
+# $usage message and exit script.
 if (scalar @ARGV != 2) { print "\n", $usage and exit 1 };
 
-# see whether Parallel::ForkManager is installed
+# See whether Parallel::ForkManager is installed, if not print error
+# message which prompts to install package
+
 my $forkmanager = eval {
 	require Parallel::ForkManager;
 	Parallel::ForkManager->new( $num_threads );
@@ -50,18 +53,20 @@ unless ($forkmanager) {
 	}
 }
 
-# muss auch beenden, wenn distance falsch angegeben wurde. distance
-# kann derzeit nur 'p' oder 'k2p' sein - und wenn gar nichts?
+# Forces to exit script if distance is wrongly indicated. Currently, 
+# distance can be 'p' or 'k2p'. Default is 'p' distance (see above).
+
 if ($distance ne 'p' and $distance ne 'k2p') { print $usage and exit 1 };
 
-# wir deklarieren die dateien, input_file muss die fasta-datei sein, output ne txt oder csv datei
+# Declare files: input_file must be fasta, output_file a .txt or .csv file.
 my $fasta_file = shift @ARGV;
 my $output_file = shift @ARGV;
+
 
 # fasta2hash: check if file is fasta, read sequence headers and sequences
 # to keys and values of a hash; loop through keys of hash, check whether
 # comparison between two keys already happened or not, if not: compare seqs
-# and calculate distances, write into output file
+# and calculate distances, write into output file.
 
 
 print "Reading Fasta file '$fasta_file'... ";
@@ -83,7 +88,7 @@ if ($print_dist_matrix){
 		"Distance",
 	), "\n";
 }
-
+print "Printed distance matrix.\n";
 my $data = {};
 
 # setup the callback routine for parallel processes
@@ -123,7 +128,7 @@ foreach my $header_1 (sort { $a cmp $b } keys %$header2seq) {
 	foreach my $header_2 (sort { $a cmp $b } keys %$header2seq) {
 
 		next if ($header_1 eq $header_2);
-		# auch next if $data->{header2}->{Header1} schon da
+		# even if "next if $data->{header2}->{header1}" already present
 		
 
 		my $dist = dist($header2seq->{$header_1}, $header2seq->{$header_2});
@@ -132,7 +137,7 @@ foreach my $header_1 (sort { $a cmp $b } keys %$header2seq) {
 		
 		
 		
-		# das hier nur tun wenn $dist_matrix = 1
+		# do this only if $dist_matrix = 1
 		if ($print_dist_matrix){
 			
 			my ($genus_1, $species_1) = parse_header($header_1);
@@ -190,8 +195,9 @@ print {$fh_out} join ("\t",
 
 my $distances;
 
-# gehen durch die grosse datenstruktur durch und sortieren jede distanz in die kategorie ein, wo sie hingehoert
-# jede artS
+# loop through large data structure, allocate each distance value to 
+# corresponding category and save it in hash
+
 foreach my $header_1 (sort {$a cmp $b} keys %$data){
 	
 #~ while (my ($header_1, $data_for_header_1) = each %$data) {
@@ -298,7 +304,7 @@ foreach my $species (sort {$a cmp $b} keys %$distances) {
 		
 		$median_dist_closest_sp = median($distances_of_closest_sp);
 		
-		# output!
+		# print output!
 		print_table_row(
 			$species,
 			$intrasp_nr_of_dist,
@@ -343,9 +349,7 @@ sub parse_header {
 		
 	return($genus, $species, $ID);
 	
-
 }
-
 # categorize two species,
 # input: taxonA genus, taxonA species, taxonB genus, taxonB species
 # output: 1, 2, 3, or 0 (could not be categorized; never happens)
@@ -372,28 +376,26 @@ sub categorize {
 	}
 }
 
-# schreib ne subroutine, die den minimalwert von einer liste an werten zurueckgibt
-# argument: arrayreferenz
-# die soll man so benutzen koennen:
+
+# return minimal value of a list
+# argument: array reference
+# usage:
 # my $minimum = min( $array_ref );
 
 sub min {
 	
 	my $distances = shift @_;
 	my $min = $$distances[0];
-
  for (@$distances){
 	 $min = $_ if $_ < $min
 	 }
 	
 	 return $min;
  }
-
-## schreib ne subroutine, die den maximalwert von einer liste an werten zurueckgibt
-# # argument: arrayreferenz
-# # die soll man so benutzen koennen:
-# # my $maximum = max( $liste_ref );
-
+# return maximal value of a list
+# argument: array reference
+# usage:
+# my $maximum = max( $array_ref );
 sub max {
 	
 	 my $distances = shift @_;
@@ -405,11 +407,11 @@ sub max {
 	
 	 return $max;
  }
-
-# # schreib ne subroutine, die den mittelwert von einer liste von werten zurueckgibt
-# # argument: arrayreferenz
-# # my $mittel = mean( $liste_ref );
-
+ 
+# return mean of a list of values 
+# argument: array reference
+# usage:
+# my $mean = mean( $array_ref );
  sub mean {
 	
 	 my $distances = shift @_;
@@ -425,6 +427,10 @@ sub max {
 	 return $mean;
  }
 
+# return median of a list of values
+# argument: array reference
+# usage:
+# my $median = median( $array_ref )
 sub median {
 
 	my $distances = shift @_;
@@ -451,6 +457,7 @@ sub median {
 
 }
 
+# return distances, either Hamming (p) or Kimura 2-parameter (k2p)
 sub dist {
 	# corrected Hamming (p) distance 
 	if ($distance eq 'p') {
@@ -462,6 +469,7 @@ sub dist {
 	}
 }
 
+# Calculate and return k2p distance
 sub k2pdist {
 	my $seqA = shift;
 	my $seqB = shift;
@@ -509,7 +517,7 @@ sub k2pdist {
 	return -0.5 * log((1 - 2 * $p - $q) * sqrt(1 - 2 * $q));
 }
 
-
+# Calculate and return number of transversions in sequence
 sub transversion {
 	my $n1 = shift;
 	my $n2 = shift;
@@ -524,6 +532,8 @@ sub transversion {
 	else { return 0 }
 }
 
+# Calculate and return number of transitions in sequence
+
 sub transition {
 	my $n1 = shift;
 	my $n2 = shift;
@@ -534,6 +544,7 @@ sub transition {
 	else { return 0 }
 }
 
+# Calculate and return p distance
 sub pdist {
 	my $seqA = shift;
 	my $seqB = shift;
@@ -565,6 +576,8 @@ sub pdist {
 	}
 	return $s_diff/(length($shorter_seq)-$s_ambig);
 }
+
+# printing subroutine
 
 sub print_table_row {
 	# input values
@@ -599,6 +612,8 @@ sub print_table_row {
 	;
 }
 
+# get most distant congener (= of same genus but not same species)
+
 sub get_most_distant_congener {
 	my $hashref_of_congeners_and_dist = shift;
 	my $most_distant_congener = '';
@@ -616,7 +631,7 @@ sub get_most_distant_congener {
 		}
 
 	}
-	#print "most distant congener: $most_distant_congener, dist $dist_to_most_distant_congener\n";
+	# print "most distant congener: $most_distant_congener, dist $dist_to_most_distant_congener\n";
 	return ($most_distant_congener, $dist_to_most_distant_congener);
 }
 
@@ -639,6 +654,8 @@ sub get_distances {
 	return $list_of_distances;
 
 }
+
+# get closest species
 
 sub get_closest_species {
 
@@ -669,6 +686,8 @@ sub get_closest_species {
 	return $closest_species;
 
 }
+
+# Calculate and return distances for closest species
 
 sub get_distances_for_closest_sp {
 	my $hashref = shift;

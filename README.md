@@ -48,17 +48,15 @@ If you run Linux or some flavor of UNIX, your Perl version should be fine. If yo
 * [ActiveState Perl](http://www.activestate.com/activeperl)
 * [DWIM Perl](http://www.dwimperl.com/windows.html)
 
-Make sure you have the database interface module DBI for your Perl version as well as the SQLite database driver DBD::SQLite. If you want to use parallel threads, you also need the module Parallel::ForkManager.
+If you want to use parallel threads, you need the module Parallel::ForkManager (available from CPAN).
 
-If you get an error like "Can't locate Some/Module.pm in @INC", you need to update your Perl installation; see REQUIRED PERL MODULES for more information.
+If you get an error like "Can't locate Some/Module.pm in @INC", you need to update your Perl installation; see below for more information.
 
 ### Required Perl modules
 
 DiStats uses core modules that are present in any standard Perl distribution. The modules listed below have to be installed additionally. If you get the error message "Error: Requested to multi-thread but Parallel::ForkManager not usable", it means that Perl can't find the Parallel::ForkManager module. 
 
 * Parallel::ForkManager (if you want to run the program with more than 1 thread)
-* DBI
-* DBD::SQLite
 
 ## DATA REQUIREMENTS
 

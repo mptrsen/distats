@@ -87,8 +87,10 @@ if ($print_dist_matrix){
 		"Header_2",
 		"Distance",
 	), "\n";
+	
+	print "Printed distance matrix.\n";
 }
-print "Printed distance matrix.\n";
+
 my $data = {};
 
 # setup the callback routine for parallel processes
